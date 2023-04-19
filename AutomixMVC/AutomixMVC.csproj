@@ -1,0 +1,120 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="wwwroot\Images\BG\footer_background.jpg" />
+    <None Remove="wwwroot\Images\BG\pince-bg.jpg" />
+    <None Remove="wwwroot\Images\BG\pizza-bg.jpg" />
+    <None Remove="wwwroot\Images\Gallery\1gallery_01.jpg" />
+    <None Remove="wwwroot\Images\Gallery\1gallery_02.jpg" />
+    <None Remove="wwwroot\Images\Gallery\1gallery_03.jpg" />
+    <None Remove="wwwroot\Images\Gallery\1gallery_04.jpg" />
+    <None Remove="wwwroot\Images\Gallery\1gallery_05.jpg" />
+    <None Remove="wwwroot\Images\Gallery\1gallery_06.jpg" />
+    <None Remove="wwwroot\Images\Gallery\1gallery_07.jpg" />
+    <None Remove="wwwroot\Images\Gallery\1gallery_08.jpg" />
+    <None Remove="wwwroot\Images\Gallery\1gallery_09.jpg" />
+    <None Remove="wwwroot\Images\Gallery\1gallery_10.jpg" />
+    <None Remove="wwwroot\Images\Icons\icon_top.png" />
+    <None Remove="wwwroot\Images\Icons\logo.png" />
+    <None Remove="wwwroot\Images\Icons\logo_black.png" />
+    <None Remove="wwwroot\Images\Icons\logo_riffic.png" />
+    <None Remove="wwwroot\Images\Icons\logo_small.png" />
+    <None Remove="wwwroot\Images\Icons\next.png" />
+    <None Remove="wwwroot\Images\Icons\next_hover.png" />
+    <None Remove="wwwroot\Images\Pince\pince_01.jpg" />
+    <None Remove="wwwroot\Images\Pince\pince_02.jpg" />
+    <None Remove="wwwroot\Images\Pince\pince_03.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\Images\BG\home-bg.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="EPPlus" Version="6.2.2" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.5" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.5" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="wwwroot\Images\BG\footer_background.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\Images\BG\home-bg.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\Images\BG\pince-bg.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\Images\BG\pizza-bg.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\Images\Gallery\1gallery_01.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\Images\Gallery\1gallery_02.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\Images\Gallery\1gallery_03.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\Images\Gallery\1gallery_04.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\Images\Gallery\1gallery_05.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\Images\Gallery\1gallery_06.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\Images\Gallery\1gallery_07.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\Images\Gallery\1gallery_08.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\Images\Gallery\1gallery_09.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\Images\Gallery\1gallery_10.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\Images\Icons\icon_top.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\Images\Icons\logo.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\Images\Icons\logo_black.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\Images\Icons\logo_riffic.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\Images\Icons\logo_small.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\Images\Icons\next.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\Images\Icons\next_hover.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\Images\Pince\pince_01.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\Images\Pince\pince_02.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\Images\Pince\pince_03.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+</Project>

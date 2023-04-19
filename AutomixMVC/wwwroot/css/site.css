@@ -1,0 +1,153 @@
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 60px;
+}
+
+
+/* Fixed transparent header */
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    background-color: transparent;
+    z-index: 1000;
+}
+
+/* Logo */
+    header .logo .logo img {
+        max-width: 150px;
+        max-height: 50px;
+        font-size: 1.5rem;
+    }
+
+/* Navigation menu */
+nav {
+    display: flex;
+}
+
+    nav a {
+        text-decoration: none;
+        margin-left: 1rem;
+        color: inherit;
+        transition: color 0.3s;
+    }
+
+        nav a:hover {
+            color: #333;
+        }
+
+/* Content sections */
+section {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2rem;
+}
+
+/* Up arrow */
+.up-arrow {
+    position: fixed;
+    bottom: 1rem;
+    right: 1rem;
+    font-size: 1.5rem;
+    display: none;
+    z-index: 1000;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+    .up-arrow:hover {
+        color: #333;
+    }
+
+/* Language switcher */
+.language-switcher {
+    display: flex;
+    margin-left: 1rem;
+}
+
+    .language-switcher button {
+        background-color: transparent;
+        border: none;
+        margin-left: 0.5rem;
+        cursor: pointer;
+        font-size: 1rem;
+        transition: color 0.3s;
+    }
+
+        .language-switcher button:hover {
+            color: #333;
+        }
+
+
+/* Parallax background sections*/
+.parallax {
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+    min-height: 100vh; /* Adjust this value to change the height of the parallax section */
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.section-content {
+    max-width: 1200px; /* Adjust this value to change the maximum width of the content */
+    width: 100%;
+    padding: 1rem;
+}
+
+/* Solid color background sections */
+.color-section-1 {
+    background-color: #f1c40f;
+}
+
+.color-section-2 {
+    background-color: #2ecc71;
+}
+
+.color-section-3 {
+    background-color: #3498db;
+}
+
+/* Carousel styles */
+.carousel {
+    width: 100%;
+    overflow: hidden;
+}
+
+.carousel-items {
+    width: 90%;
+}
+
+
+.day-menu {
+    display: inline-block;
+    width: 14%; /* 100% divided by 7 days */
+    text-align: center;
+    vertical-align: top;
+    padding: 1rem;
+    box-sizing: border-box;
+}
