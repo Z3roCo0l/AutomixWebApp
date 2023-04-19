@@ -7,6 +7,9 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,9 +19,14 @@ builder.Services.AddControllersWithViews();
 // Register your DbContext and configure the database provider
 builder.Services.AddDbContext<AutomixDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
 // Add your services here
 builder.Services.AddScoped<IExcelReader, ExcelReader>();
 builder.Services.AddScoped<IFoodItemRepository, FoodItemRepository>();
+
+// Configure Identity
+builder.Services.AddDefaultIdentity<IdentityUser>()
+    .AddEntityFrameworkStores<AutomixDbContext>();
 
 // Add controllers
 builder.Services.AddControllers();

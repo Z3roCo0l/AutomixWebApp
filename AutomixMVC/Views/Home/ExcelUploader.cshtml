@@ -1,0 +1,48 @@
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+@{
+    ViewData["Automix"] = "Excel Uploader";
+}
+@if (SignInManager.IsSignedIn(User))
+{
+            <li class="nav-item">
+                <span class="nav-text">@UserManager.GetUserName(User)</span>
+            </li>
+            <li class="nav-item">
+                <form method="post" asp-controller="Account" asp-action="Logout">
+                    <button type="submit" class="nav-link btn btn-link text-dark">Logout</button>
+                </form>
+            </li>
+}
+else
+{
+                <li class="nav-item">
+                <a class="nav-link text-dark" asp-controller="Account" asp-action="Login">Login</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-dark" asp-controller="Account" asp-action="Register">Register</a>
+                </li>
+}
+<style>
+    .center-screen {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        width: 100%;
+        box-sizing: border-box;
+        padding: 20px;
+    }
+</style>
+<div class="center-screen">
+<h1>Excel Uploader</h1>
+
+<form asp-controller="Home" asp-action="ImportData" method="post" enctype="multipart/form-data">
+    <div class="form-group">
+        <label for="excelFile">Upload Excel File</label>
+        <input type="file" class="form-control-file" id="excelFile" name="excelFile" accept=".xlsx">
+    </div>
+    <button type="submit" class="btn btn-primary">Upload</button>
+</form>
+</div>
