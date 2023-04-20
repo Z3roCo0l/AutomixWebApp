@@ -1,9 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using AutomixMVC.Models;
 
 namespace AutomixMVC.Data
 {
-    public class AutomixDbContext : DbContext
+    public class AutomixDbContext : IdentityDbContext
     {
         public AutomixDbContext(DbContextOptions<AutomixDbContext> options) : base(options) { 
 
