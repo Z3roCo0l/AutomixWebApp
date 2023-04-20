@@ -1,31 +1,58 @@
 ﻿// Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
 // for details on configuring this project to bundle and minify static web assets.
 
-// Write your JavaScript code.
-// Smooth scroll for navigation links
-document.querySelectorAll('nav a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-        document.querySelector(this.getAttribute('href')).scrollIntoView({
-            behavior: 'smooth'
-        });
-    });
-});
 
-// Show/hide up arrow
-const upArrow = document.querySelector('.up-arrow');
-window.addEventListener('scroll', () => {
-    if (window.scrollY > 300) {
-        upArrow.style.display = 'block';
+$(document).ready(function () {
+    // Smooth scrolling
+    $("a[href^='#']").on("click", function (event) {
+        event.preventDefault();
+        $("html, body").animate({
+            scrollTop: $($.attr(this, "href")).offset().top
+        }, 500);
+    });
+
+    // Navbar background change on scroll
+    $(window).scroll(function () {
+        if ($(window).scrollTop() > 50) {
+            $(".navbar").addClass("scrolled");
+            $(".logo").css("font-size", "1em");
+        } else {
+            $(".navbar").removeClass("scrolled");
+            $(".logo").css("font-size", "1.5em");
+        }
+    });
+
+// Back to top button
+$("body").append("<div class='back-to-top'></div>");
+$(".back-to-top").css({
+    "display": "none",
+    "position": "fixed",
+    "bottom": "20px",
+    "right": "20px",
+    "width": "40px",
+    "height": "40px",
+    "background-color": "#333",
+    "color": "#fff",
+    "border-radius": "50%",
+    "text-align": "center",
+    "line-height": "40px",
+    "font-size": "24px",
+    "cursor": "pointer",
+}).text("^");
+
+$(window).scroll(function () {
+    if ($(window).scrollTop() > 300) {
+        $(".back-to-top").fadeIn();
     } else {
-        upArrow.style.display = 'none';
+        $(".back-to-top").fadeOut();
     }
 });
 
-// Smooth scroll for up arrow
-upArrow.addEventListener('click', () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+$(".back-to-top").on("click", function () {
+    $("html, body").animate({ scrollTop: 0 }, 500);
 });
+});
+
 
 // Language switcher
 const languageButtons = document.querySelectorAll('.language-switcher button');
