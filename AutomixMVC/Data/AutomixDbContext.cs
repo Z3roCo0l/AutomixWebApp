@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using AutomixMVC.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace AutomixMVC.Data
 {
@@ -20,6 +21,10 @@ namespace AutomixMVC.Data
             modelBuilder.Entity<Food>()
                 .Property(f => f.DailyMenuType)
                 .HasConversion<int?>();
+
+            modelBuilder.Entity<IdentityUserLogin<string>>().HasKey(l => new { l.LoginProvider, l.ProviderKey });
+
+            base.OnModelCreating(modelBuilder);
         }
     }
 }
