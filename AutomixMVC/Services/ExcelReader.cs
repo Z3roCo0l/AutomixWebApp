@@ -18,15 +18,40 @@ namespace AutomixMVC.Services
 
                 for (int i = 2; i <= totalRows; i++) // Assuming the first row contains headers, so start reading from the second row
                 {
+                    var name = worksheet.Cells[i, 1].Value?.ToString();
+                    var dateStr = worksheet.Cells[i, 2].Value?.ToString();
+                    var dailyMenuTypeStr = worksheet.Cells[i, 3].Value?.ToString();
+
+                    if (string.IsNullOrWhiteSpace(name) || string.IsNullOrWhiteSpace(dateStr) || string.IsNullOrWhiteSpace(dailyMenuTypeStr))
+                    {
+                        // Handle cases where any of the cells are empty or null
+                        continue;
+                    }
+
+                    DateTime date;
+                    if (!DateTime.TryParse(dateStr, out date))
+                    {
+                        // Handle cases where the date cannot be parsed
+                        continue;
+                    }
+
+                    DailyMenuType dailyMenuType;
+                    if (!Enum.TryParse<DailyMenuType>(dailyMenuTypeStr, out dailyMenuType))
+                    {
+                        // Handle cases where the enum value cannot be parsed
+                        continue;
+                    }
+
                     var foodItem = new Food
                     {
-                        Name = worksheet.Cells[i, 1].Value.ToString(),
-                        DateTime = DateTime.Parse(worksheet.Cells[i, 2].Value.ToString()),
-                        DailyMenuType = (DailyMenuType)Enum.Parse(typeof(DailyMenuType), worksheet.Cells[i, 3].Value.ToString())
+                        Name = name,
+                        DateTime = date,
+                        DailyMenuType = dailyMenuType
                     };
 
                     foodItems.Add(foodItem);
                 }
+
             }
 
             return foodItems;
