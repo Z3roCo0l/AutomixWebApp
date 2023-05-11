@@ -1,0 +1,259 @@
+﻿.gallery {
+    text-align: center;
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+
+}
+.gallery-header {
+    text-align: center;
+    width: 100%;
+}
+
+    .gallery-header h1 {
+        padding-top: 100px;
+        font-family: 'Allura', cursive;
+        font-size: 72px;
+        color: #e75b1e;
+    }
+
+    .gallery-header p {
+        font-family: 'Roboto', sans-serif;
+        font-size: 24px;
+    }
+
+
+.gallery-item {
+    position: relative;
+    flex-basis: calc(50% - 10px);
+    margin-bottom: 20px;
+}
+
+    .gallery-item:nth-child(2),
+    .gallery-item:nth-child(8) {
+        flex-basis: calc(100% - 10px);
+    }
+
+    .gallery-item img {
+        width: 100%;
+        height: auto;
+    }
+
+.gallery-item-overlay {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(231, 91, 30, 0.5);
+    opacity: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.3s ease;
+}
+
+    .gallery-item-overlay i {
+        color: white;
+        font-size: 2em;
+    }
+
+.gallery-item:hover .gallery-item-overlay {
+    opacity: 1;
+}
+/*body {
+    font-family: Arial, sans-serif;
+}
+
+.block-title {
+    font-family: 'Allura', cursive;
+    font-size: 72px;
+    color: #e75b1e;
+}
+
+
+.title-caption {
+    font-size: 1.25rem;
+    color: #777;
+}
+
+.gal-container {
+    display: flex;
+    flex-wrap: wrap;
+    margin: -15px;
+}
+
+.gal-item {
+    padding: 15px;
+}
+
+.box {
+    position: relative;
+    overflow: hidden;
+}
+
+    .box img {
+        max-width: 100%;
+        display: block;
+    }
+
+.modal-content {
+    position: relative;
+    background-color: #fff;
+    border: none;
+    border-radius: 0;
+}
+
+.modal-body img {
+    max-width: 100%;
+    display: block;
+}
+
+.description {
+    padding: 15px;
+}
+
+.close {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    font-size: 2rem;
+    font-weight: bold;
+    color: #333;
+}
+
+#gallery {
+    width: auto;
+    height: auto;
+    padding-top: 30px;
+    padding-bottom: 30px;
+}
+
+
+
+.gallery-main {
+}
+
+    .gallery-main .title-caption {
+        color: #666;
+    }
+
+.gal-container {
+    padding: 12px;
+}
+
+.gal-item {
+    overflow: hidden;
+    padding: 3px;
+}
+
+    .gal-item .box {
+        height: 350px;
+        overflow: hidden;
+    }
+
+.box img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+}
+
+.gal-item a:focus {
+    outline: none;
+}
+
+.gal-item a:after {
+    content: "\f002";
+    font-family: 'Font Awesome 6 Free';
+    font-weight: 900;
+    opacity: 0;
+    background-color: rgba(231, 91, 30, 0.75);
+    position: absolute;
+    right: 3px;
+    left: 3px;
+    top: 3px;
+    bottom: 3px;
+    text-align: center;
+    line-height: 350px;
+    font-size: 30px;
+    color: #fff;
+    transition: all 0.5s ease-in-out 0s;
+}
+
+.gal-item a:hover:after {
+    opacity: 1;
+}
+
+.modal-open .gal-container .modal {
+    background-color: rgba(0,0,0,0.4);
+}
+
+.modal-open .gal-item .modal-body {
+    padding: 0px;
+}
+
+.modal-open .gal-item button.close {
+    position: absolute;
+    width: 25px;
+    height: 25px;
+    background-color: #000;
+    opacity: 1;
+    color: #fff;
+    z-index: 999;
+    right: -12px;
+    top: -12px;
+    border-radius: 50%;
+    font-size: 15px;
+    border: 2px solid #fff;
+    line-height: 25px;
+    box-shadow: 0 0 1px 1px rgba(0,0,0,0.35);
+}
+
+    .modal-open .gal-item button.close:focus {
+        outline: none;
+    }
+
+    .modal-open .gal-item button.close span {
+        position: relative;
+        top: -3px;
+        font-weight: lighter;
+        text-shadow: none;
+    }
+
+.gal-container .modal-dialogue {
+    width: 80%;
+}
+
+.gal-container .description {
+    position: relative;
+    height: 40px;
+    top: -40px;
+    padding: 10px 25px;
+    background-color: rgba(0,0,0,0.5);
+    color: #fff;
+    text-align: left;
+}
+
+    .gal-container .description h4 {
+        margin: 0px;
+        font-size: 15px;
+        font-weight: 300;
+        line-height: 20px;
+        color: #fff;
+    }
+
+.gal-container .modal.fade .modal-dialog {
+    transform: scale(0.1);
+    top: 100px;
+    opacity: 0;
+    transition: all 0.3s;
+}
+
+.gal-container .modal.fade.in .modal-dialog {
+    transform: scale(1);
+    transform: translate3d(0, -100px, 0);
+    opacity: 1;
+}
+*/

@@ -1,0 +1,19 @@
+﻿
+
+<section id="gallery" data-hu="Képeink" data-en="Gallery" class="color-section-2 gallery pad-top-100 pad-bottom-100">
+    <div class="gallery-header">
+        <h1>Képeink</h1>
+        <p>Családias környezetben várjuk vendégeinket!</p>
+    </div>
+
+    @foreach (var item in Model)
+    {
+        <div class="gallery-item">
+            <img src="@item.Uri" alt="@item.Image.Name" />
+            <div class="gallery-item-overlay">
+                <i class="fa fa-search"></i>
+            </div>
+        </div>
+    }
+
+</section>
