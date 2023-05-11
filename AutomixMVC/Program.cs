@@ -9,6 +9,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Pomelo.EntityFrameworkCore.MySql;
+
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -18,10 +20,19 @@ builder.Services.AddControllersWithViews();
 
 // Register your DbContext and configure the database provider
 builder.Services.AddDbContext<AutomixDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+    {
+        var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+        if (string.IsNullOrEmpty(connectionString))
+        {
+            throw new InvalidOperationException("DefaultConnection connection string is missing.");
+        }
+
+        options.UseMySQL(connectionString);
+    });
 
 // Add your services here
 builder.Services.AddScoped<IExcelReader, ExcelReader>();
+builder.Services.AddScoped<IImageService, ImageService>();
 builder.Services.AddScoped<IFoodItemRepository, FoodItemRepository>();
 
 // Configure Identity
