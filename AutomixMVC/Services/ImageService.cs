@@ -45,7 +45,10 @@ namespace AutomixMVC.Services
 
             UriBuilder uriBuilder = new UriBuilder
             {
-                Path = path
+                Scheme = "https",
+                Host = "localhost",
+                Port = -1,
+                Path = path,
             };
 
             if (withModTime)
