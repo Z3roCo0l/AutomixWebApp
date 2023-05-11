@@ -1,0 +1,28 @@
+﻿body {
+}
+#connections {
+    width: auto;
+    height: auto;
+    padding-top: 30px;
+    padding-bottom: 30px;
+}
+
+.orange-header {
+    color: #e75b1e;
+}
+
+.orange-icon {
+    width: 32px;
+    text-align: center;
+    color: #e75b1e;
+}
+
+.grey-text {
+    color: #333;
+}
+
+.container p,
+.container li,
+.container a {
+    color: #fff;
+}

@@ -1,0 +1,109 @@
+﻿body {
+}
+
+#cellar{
+    width: auto;
+    height: auto;
+    padding-top: 30px;
+    padding-bottom: 30px;
+}
+.cellar {
+    background-attachment: fixed;
+    background-size: cover;
+    position: relative;
+}
+
+    .cellar .block-title {
+        font-family: 'Allura', cursive;
+        font-size: 72px;
+        color: #e75b1e;
+    }
+
+    
+
+.sf-cellar {
+    float: left;
+    width: 100%;
+}
+
+    .sf-cellar .thumb {
+        float: left;
+        width: 100%;
+        overflow: hidden;
+        background: #000;
+    }
+
+    .sf-cellar .text-col {
+        float: left;
+        width: 100%;
+        padding: 25px 20px;
+        border: 1px solid #ccc;
+        box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        -webkit-box-sizing: border-box;
+        text-align: center;
+        background: #fff;
+    }
+
+    .sf-cellar .thumb a img {
+        width: 100%;
+    }
+
+    .sf-cellar:hover .text-col {
+        border: 1px solid rgba(0,0,0,0);
+        transition: all 0.5s ease-in;
+        background: #e75b1e;
+    }
+
+    .sf-cellar:hover .thumb img {
+        opacity: 0.6;
+        transition: all 0.5s ease-in;
+    }
+
+    .sf-cellar .text-col h3 {
+        font-family: 'Allura', cursive;
+        font-size: 36px;
+    }
+
+.sf-cellar:hover .cellar-social {
+    border-color: #fff;
+    transition: all 0.5s ease-in;
+}
+
+.cellar-social {
+    display: block;
+    text-align: center;
+    margin: 0;
+    padding: 20px 0 0 0;
+    list-style: none;
+    border-top: 1px solid;
+}
+
+    .cellar-social li {
+        display: inline-block;
+        padding: 0 4px;
+    }
+
+.sf-cellar:hover .cellar-social li a {
+    border: 1px solid rgba(0,0,0,0);
+    background: #fff;
+    color: #222;
+    transition: all 0.5s ease-in;
+}
+
+.cellar-social li a {
+    width: 34px;
+    height: 34px;
+    text-align: center;
+    /*line-height: 32px;*/
+    border: 1px solid #ccc;
+    border-radius: 100%;
+    color: #222;
+    font-size: 16px;
+    display: block;
+}
+
+.sf-cellar:hover .text-col h3, .sf-cellar:hover .text-col p {
+    color: #fff;
+    transition: all 0.5s ease-in;
+}

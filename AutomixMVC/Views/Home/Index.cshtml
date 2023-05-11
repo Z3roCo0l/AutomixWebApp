@@ -1,10 +1,14 @@
-﻿@{
+﻿@using System.Linq;
+
+@{
     ViewData["Automix"] = "Automix Restaurant";
 }
+@await Html.PartialAsync("Header")
 @await Html.PartialAsync("Home")
 @await Html.PartialAsync("About")
 @await Html.PartialAsync("Cellar")
-@await Html.PartialAsync("Gallery")
+@*@await Html.PartialAsync("Gallery", Model, new ViewDataDictionary(ViewData))*@
+@await Component.InvokeAsync("Gallery")
 @await Html.PartialAsync("Alacarte")
 @await Html.PartialAsync("Pizza")
 @await Html.PartialAsync("DailyMenu")
