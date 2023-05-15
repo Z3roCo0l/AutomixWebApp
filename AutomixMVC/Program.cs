@@ -10,13 +10,14 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Pomelo.EntityFrameworkCore.MySql;
-
-
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+
 
 // Register your DbContext and configure the database provider
 builder.Services.AddDbContext<AutomixDbContext>(options =>
@@ -34,6 +35,10 @@ builder.Services.AddDbContext<AutomixDbContext>(options =>
 builder.Services.AddScoped<IExcelReader, ExcelReader>();
 builder.Services.AddScoped<IImageService, ImageService>();
 builder.Services.AddScoped<IFoodItemRepository, FoodItemRepository>();
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
+
+
 
 // Configure Identity
 builder.Services.AddDefaultIdentity<IdentityUser>()
