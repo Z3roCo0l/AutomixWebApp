@@ -41,7 +41,7 @@ namespace AutomixMVC.Component
             var model = images.Select(image => new ImageViewModel
             {
                 Image = image,
-                Uri = _imageService.GetUrl(image.Name)
+                Uri = image.Name != null ? _imageService.GetUrl(image.Name) : null
             }).ToList();
 
             return View(model);

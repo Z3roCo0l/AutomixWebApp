@@ -6,17 +6,21 @@ using System.Threading.Tasks;
 using System;
 using AutomixMVC.Models;
 
+
 namespace AutomixMVC.Services
 {
     public class ImageService : IImageService
     {
         private readonly AutomixDbContext _context;
         private readonly string _directoryPath;
+        private readonly IConfiguration _configuration;
 
-        public ImageService(AutomixDbContext context, string directoryPath = "wwwroot/Images/Gallery/")
+        public ImageService(AutomixDbContext context, IConfiguration configuration, string directoryPath = "wwwroot/Images/Gallery/")
         {
             _context = context;
+            _configuration = configuration;
             _directoryPath = directoryPath;
+
         }
 
         public async Task AddImagesToDatabase()
@@ -40,14 +44,18 @@ namespace AutomixMVC.Services
 
         public Uri GetUrl(string imageName, bool withModTime = true)
         {
-            string path = Path.Combine("/Images/Gallery", imageName + ".jpg");
-            FileInfo fi = new FileInfo(Path.Combine("", path));
+ 
+            string hostName = _configuration["HostConfig:HostName"] ??string.Empty;
+            string scheme = _configuration["HostConfig:Scheme"] ??string.Empty;
+            int port = _configuration.GetValue<int>("HostConfig:Port");
+            string path = Path.Combine("/Images/Gallery", imageName + ".jpg").Replace("\\", "/");
+            FileInfo fi = new FileInfo(Path.Combine("wwwroot", path));
 
             UriBuilder uriBuilder = new UriBuilder
             {
-                Scheme = "https",
-                Host = "localhost",
-                Port = -1,
+                Scheme = scheme,
+                Host = hostName,
+                Port = port,
                 Path = path,
             };
 
