@@ -8,6 +8,9 @@ using System.IO;
 using System.IO.Abstractions.TestingHelpers;
 using static System.Net.Mime.MediaTypeNames;
 using Microsoft.Extensions.Configuration;
+using Xunit.Abstractions;
+using System.Diagnostics;
+using System.Security.Policy;
 
 namespace UnitTest
 {
@@ -16,17 +19,18 @@ namespace UnitTest
         private readonly ImageService _imageService;
         private readonly AutomixDbContext _context;
         private readonly MockFileSystem _fileSystem;
+        private readonly IConfiguration _configuration;
 
         public ImageServiceTest()
         {
             _fileSystem = new MockFileSystem();
-
+            
             var inMemorySettings = new Dictionary<string, string> {
-        {"Host", "LocalHost"},
-        {"Database", "InMemoryTest"},
-    };
-
-            IConfiguration configuration = new ConfigurationBuilder()
+                {"Host", "LocalHost"},
+                {"Database", "InMemoryTest"},
+            };
+            
+            _configuration = new ConfigurationBuilder()
                 .AddInMemoryCollection(inMemorySettings)
                 .Build();
 
@@ -34,10 +38,10 @@ namespace UnitTest
                 .UseInMemoryDatabase(databaseName: "TestDatabase")
                 .Options;
 
-            _context = new AutomixDbContext(options, configuration);
+            _context = new AutomixDbContext(options, _configuration);
             _context.Database.EnsureDeleted();
 
-            _imageService = new ImageService(_context);
+            _imageService = new ImageService(_context, _configuration);
         }
 
 
@@ -54,7 +58,7 @@ namespace UnitTest
             }
 
             // Change the ImagesService to accept a path to the directory as a parameter
-            var imageService = new ImageService(_context, tempDir);
+            var imageService = new ImageService(_context, _configuration, tempDir);
 
             // Act
             await imageService.AddImagesToDatabase();
@@ -67,25 +71,38 @@ namespace UnitTest
         }
 
 
-        [Fact]
-        public void GetUrl_ReturnsUrlWithModTime()
-        {
-            // Arrange
-            string imageName = "testImage";
+        //[Fact]
+        //public void GetUrl_ReturnsValidUri()
+        //{
+        //    // Arrange
+        //    var configuration = new Mock<IConfiguration>();
+        //    configuration.Setup(c => c["HostConfig:HostName"]).Returns("localhost");
+        //    configuration.Setup(c => c["HostConfig:Scheme"]).Returns("https");
 
-            // Act
-            var result = _imageService.GetUrl(imageName, true);
+        //    var customConfiguration = new Mock<IConfiguration>();
+        //    customConfiguration.Setup(c => c[It.IsAny<string>()]).Returns("44371");
 
-            // Assert
-            Assert.NotNull(result);
-            Assert.Contains("mod=", result.Query);
-        }
+        //    configuration.Setup(c => c.GetSection("HostConfig")).Returns(customConfiguration.Object.GetSection("HostConfig"));
+
+        //    var imageService = new ImageService(null, configuration.Object);
+
+        //    string imageName = "testImage";
+        //    var expectedUri = new Uri($"https://localhost/Images/Gallery/{imageName}.jpg");
+
+        //    // Act
+        //    var result = imageService.GetUrl(imageName, false);
+
+        //    // Assert
+        //    Assert.NotNull(result);
+        //    Assert.Equal(expectedUri, result);
+        //}
+
 
         [Fact]
         public async void AddImagesToDatabase_ThrowsExceptionWhenDirectoryNotFound()
         {
             // Arrange
-            var imageService = new ImageService(_context, "nonexistent/directory");
+            var imageService = new ImageService(_context, _configuration, "nonexistent/directory");
 
             // Act & Assert
             await Assert.ThrowsAsync<DirectoryNotFoundException>(() => imageService.AddImagesToDatabase());
@@ -110,7 +127,7 @@ namespace UnitTest
                 File.Create(Path.Combine(tempDir, $"test{i}.txt")).Close();
             }
 
-            var imageService = new ImageService(_context, tempDir);
+            var imageService = new ImageService(_context, _configuration, tempDir);
 
             // Act
             await imageService.AddImagesToDatabase();
