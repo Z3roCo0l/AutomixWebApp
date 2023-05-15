@@ -6,7 +6,7 @@ using Microsoft.Extensions.Configuration;
 using System.Configuration;
 using Pomelo.EntityFrameworkCore.MySql;
 using System.Linq;
-
+using System.Drawing.Text;
 
 namespace AutomixMVC.Data
 {
@@ -19,9 +19,12 @@ namespace AutomixMVC.Data
         {
             _configuration = configuration;
         }
-
+        public DbSet<User> Users { get; set; }
+        public DbSet<Role> Roles { get; set; }
         public DbSet<Food> FoodItems { get; set; }
         public DbSet<Image> Images { get; set; }
+        public DbSet<FoodIngredients> FoodIngredients { get; set; }
+        public DbSet<FoodIngredientAssociation> FoodIngredientAssociations { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -36,7 +39,6 @@ namespace AutomixMVC.Data
             }
         }
 
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Food>()
@@ -50,7 +52,53 @@ namespace AutomixMVC.Data
             modelBuilder.Entity<IdentityUserLogin<string>>().HasKey(l => new { l.LoginProvider, l.ProviderKey });
 
             base.OnModelCreating(modelBuilder);
+
+            // Seed the Roles
+            modelBuilder.Entity<Role>().HasData(new Role
+            {
+                Id = 1,
+                Name = "Admin"
+            }, new Role
+            {
+                Id = 2,
+                Name = "Kitchen"
+            }, new Role
+            {
+                Id = 3,
+                Name = "Waiter"
+            });
+
+            // Seed the initial admin user
+            modelBuilder.Entity<User>().HasData(new User
+            {
+                Id = 1,
+                Username = "admin",
+                PasswordHash = HashPassword("adminpassword"),
+                Role = "Admin"
+            });
+            modelBuilder.Entity<FoodIngredientAssociation>()
+           .HasKey(fia => new { fia.FoodId, fia.FoodIngredientsID });
+
+            modelBuilder.Entity<FoodIngredientAssociation>()
+                .HasOne(fia => fia.Food)
+                .WithMany(f => f.FoodIngredientAssociations)
+                .HasForeignKey(fia => fia.FoodId);
+
+            modelBuilder.Entity<FoodIngredientAssociation>()
+                .HasOne(fia => fia.FoodIngredients)
+                .WithMany(fi => fi.FoodIngredientAssociations)
+                .HasForeignKey(fia => fia.FoodIngredientsID);
+        }
+
+        private string HashPassword(string password)
+        {
+            using (var hmac = new System.Security.Cryptography.HMACSHA512())
+            {
+                var passwordSalt = hmac.Key;
+                var passwordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
+                return Convert.ToBase64String(passwordHash);
+            }
         }
     }
-
 }
+
