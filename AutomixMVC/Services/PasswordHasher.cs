@@ -33,9 +33,25 @@ namespace AutomixMVC.Services
                 throw new FormatException("Unexpected hash format.");
             }
 
-            var iterations = Convert.ToInt32(parts[0]);
+            if (!int.TryParse(parts[0], out int iterations))
+            {
+                throw new FormatException("Unexpected iteration format.");
+            }
+
+            byte[] salt, key;
+            try
+            {
+                salt = Convert.FromBase64String(parts[1]);
+                key = Convert.FromBase64String(parts[2]);
+            }
+            catch
+            {
+                throw new FormatException("Invalid Base64 encoding.");
+            }
+
+/*            var iterations = Convert.ToInt32(parts[0]);
             var salt = Convert.FromBase64String(parts[1]);
-            var key = Convert.FromBase64String(parts[2]);
+            var key = Convert.FromBase64String(parts[2]);*/
 
             using var algorithm = new Rfc2898DeriveBytes(
                 password,
@@ -45,7 +61,18 @@ namespace AutomixMVC.Services
 
             var keyToCheck = algorithm.GetBytes(KeySize);
 
-            return KeySize == keyToCheck.Length && key.SequenceEqual(keyToCheck);
+            return KeySize == keyToCheck.Length && ConstantTimeComparison(key, keyToCheck);
+
+        }
+        private static bool ConstantTimeComparison(byte[] a, byte[] b)
+        {
+            uint diff = (uint)a.Length ^ (uint)b.Length;
+            for (int i = 0; i < a.Length && i < b.Length; i++)
+            {
+                diff |= (uint)(a[i] ^ b[i]);
+            }
+
+            return diff == 0;
         }
     }
 
