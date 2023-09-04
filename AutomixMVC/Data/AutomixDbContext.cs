@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using AutomixMVC.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
@@ -25,6 +24,7 @@ namespace AutomixMVC.Data
         public DbSet<Image> Images { get; set; }
         public DbSet<FoodIngredients> FoodIngredients { get; set; }
         public DbSet<FoodIngredientAssociation> FoodIngredientAssociations { get; set; }
+        public DbSet<Purchase> Purchases { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -101,4 +101,3 @@ namespace AutomixMVC.Data
         }
     }
 }
-

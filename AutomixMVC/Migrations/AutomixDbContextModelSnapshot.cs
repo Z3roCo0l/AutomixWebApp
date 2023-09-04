@@ -19,6 +19,30 @@ namespace AutomixMVC.Migrations
                 .HasAnnotation("ProductVersion", "7.0.5")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
+            modelBuilder.Entity("AutomixMVC.Models.BasketItem", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<int>("FoodId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("PurchaseId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FoodId");
+
+                    b.HasIndex("PurchaseId");
+
+                    b.ToTable("BasketItem");
+                });
+
             modelBuilder.Entity("AutomixMVC.Models.Food", b =>
                 {
                     b.Property<int>("Id")
@@ -32,7 +56,6 @@ namespace AutomixMVC.Migrations
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<decimal>("FoodPrice")
@@ -42,16 +65,43 @@ namespace AutomixMVC.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("ImageUrl")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.HasKey("Id");
 
                     b.ToTable("FoodItems");
+                });
+
+            modelBuilder.Entity("AutomixMVC.Models.FoodIngredientAssociation", b =>
+                {
+                    b.Property<int>("FoodId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("FoodIngredientsID")
+                        .HasColumnType("int");
+
+                    b.HasKey("FoodId", "FoodIngredientsID");
+
+                    b.HasIndex("FoodIngredientsID");
+
+                    b.ToTable("FoodIngredientAssociations");
+                });
+
+            modelBuilder.Entity("AutomixMVC.Models.FoodIngredients", b =>
+                {
+                    b.Property<int>("FoodIngredientsID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("FoodIngredientName")
+                        .HasColumnType("longtext");
+
+                    b.HasKey("FoodIngredientsID");
+
+                    b.ToTable("FoodIngredients");
                 });
 
             modelBuilder.Entity("AutomixMVC.Models.Image", b =>
@@ -61,16 +111,88 @@ namespace AutomixMVC.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("Path")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.HasKey("Id");
 
                     b.ToTable("Images");
+                });
+
+            modelBuilder.Entity("AutomixMVC.Models.Purchase", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("PurchaseDate")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<decimal>("TotalPrice")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Purchases");
+                });
+
+            modelBuilder.Entity("AutomixMVC.Models.Role", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Roles");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Admin"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Kitchen"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "Waiter"
+                        });
+                });
+
+            modelBuilder.Entity("AutomixMVC.Models.User", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("PasswordHash")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Role")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Username")
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Users");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            PasswordHash = "E9f9VQvS8f6QmILyH2iiMtiJFitEjHhNLGJ4l3Foi0cQg3vFVIhm4VBMRYBzMrJUxb3syJqmK62HP33/0e/VIA==",
+                            Role = "Admin",
+                            Username = "admin"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
@@ -90,6 +212,55 @@ namespace AutomixMVC.Migrations
                     b.HasKey("LoginProvider", "ProviderKey");
 
                     b.ToTable("IdentityUserLogin<string>");
+                });
+
+            modelBuilder.Entity("AutomixMVC.Models.BasketItem", b =>
+                {
+                    b.HasOne("AutomixMVC.Models.Food", "Food")
+                        .WithMany()
+                        .HasForeignKey("FoodId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("AutomixMVC.Models.Purchase", null)
+                        .WithMany("Items")
+                        .HasForeignKey("PurchaseId");
+
+                    b.Navigation("Food");
+                });
+
+            modelBuilder.Entity("AutomixMVC.Models.FoodIngredientAssociation", b =>
+                {
+                    b.HasOne("AutomixMVC.Models.Food", "Food")
+                        .WithMany("FoodIngredientAssociations")
+                        .HasForeignKey("FoodId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("AutomixMVC.Models.FoodIngredients", "FoodIngredients")
+                        .WithMany("FoodIngredientAssociations")
+                        .HasForeignKey("FoodIngredientsID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Food");
+
+                    b.Navigation("FoodIngredients");
+                });
+
+            modelBuilder.Entity("AutomixMVC.Models.Food", b =>
+                {
+                    b.Navigation("FoodIngredientAssociations");
+                });
+
+            modelBuilder.Entity("AutomixMVC.Models.FoodIngredients", b =>
+                {
+                    b.Navigation("FoodIngredientAssociations");
+                });
+
+            modelBuilder.Entity("AutomixMVC.Models.Purchase", b =>
+                {
+                    b.Navigation("Items");
                 });
 #pragma warning restore 612, 618
         }
