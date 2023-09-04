@@ -1,60 +1,67 @@
 ﻿using AutomixMVC.Models;
 using OfficeOpenXml;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
+using static Azure.Core.HttpHeader;
+using System.Text.RegularExpressions;
 
 namespace AutomixMVC.Services
 {
+    
     public class ExcelReader : IExcelReader
     {
-        public List<Food> ReadItemsFromExcel(Stream excelFileStream)
+        public readonly IMenuPriceService _menuPriceService;
+        public ExcelReader(IMenuPriceService menuPriceService)
         {
-            var foodItems = new List<Food>();
-
-            using (var package = new ExcelPackage(excelFileStream))
+            _menuPriceService = menuPriceService;
+        }
+        public List<Food> ReadItemsFromExcel(Stream excelStream)
+        {
+            List<Food> foods = new List<Food>();
+            using (var package = new ExcelPackage(excelStream))
             {
-                var worksheet = package.Workbook.Worksheets[0]; // Assuming the data is in the first worksheet
-                int totalRows = worksheet.Dimension.End.Row;
-
-                for (int i = 2; i <= totalRows; i++) // Assuming the first row contains headers, so start reading from the second row
+                foreach (var worksheet in package.Workbook.Worksheets)
                 {
-                    var name = worksheet.Cells[i, 1].Value?.ToString();
-                    var dateStr = worksheet.Cells[i, 2].Value?.ToString();
-                    var dailyMenuTypeStr = worksheet.Cells[i, 3].Value?.ToString();
-
-                    if (string.IsNullOrWhiteSpace(name) || string.IsNullOrWhiteSpace(dateStr) || string.IsNullOrWhiteSpace(dailyMenuTypeStr))
+                    for (int row = 4; row <= worksheet.Dimension.End.Row; row += 6)
                     {
-                        // Handle cases where any of the cells are empty or null
-                        continue;
+                        var dateTimeString = Convert.ToString(worksheet.Cells[row, 2].Value);
+                        if (DateTime.TryParse(dateTimeString, out DateTime parsedDate))
+                        {
+                            for (int offset = 1; offset <= 5; offset++)
+                            {
+                                ReadAndAddFood(foods, worksheet, row + offset, 1, parsedDate);
+                                ReadAndAddFood(foods, worksheet, row + offset, 5, parsedDate);
+                                ReadAndAddFood(foods, worksheet, row + offset, 9, parsedDate);
+                            }
+                        }
                     }
-
-                    DateTime date;
-                    if (!DateTime.TryParse(dateStr, out date))
-                    {
-                        // Handle cases where the date cannot be parsed
-                        continue;
-                    }
-
-                    DailyMenuType dailyMenuType;
-                    if (!Enum.TryParse<DailyMenuType>(dailyMenuTypeStr, out dailyMenuType))
-                    {
-                        // Handle cases where the enum value cannot be parsed
-                        continue;
-                    }
-
-                    var foodItem = new Food
-                    {
-                        Name = name,
-                        DateTime = date,
-                        DailyMenuType = dailyMenuType
-                    };
-
-                    foodItems.Add(foodItem);
                 }
-
             }
 
-            return foodItems;
+            return foods;
+        }
+
+        private void ReadAndAddFood(List<Food> foods, ExcelWorksheet worksheet, int row, int col, DateTime date)
+        {
+            var dailyMenuTypeString = Convert.ToString(worksheet.Cells[row, col].Value);
+            var foodName = Convert.ToString(worksheet.Cells[row, col + 1].Value);
+
+            if (!string.IsNullOrEmpty(dailyMenuTypeString) &&
+                Enum.TryParse(dailyMenuTypeString, out DailyMenuType dailyMenuType) &&
+                !string.IsNullOrEmpty(foodName))  // Check if foodName is not null or empty
+            {
+                decimal foodPrice = _menuPriceService.GetCurrentMenuPrice();
+                foods.Add(new Food(foodName, (FoodType)2, foodPrice)
+                {
+                    DateTime = date,
+                    DailyMenuType = dailyMenuType,
+                });
+            }
         }
     }
 }
+
+
+
+

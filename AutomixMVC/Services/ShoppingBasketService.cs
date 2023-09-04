@@ -16,10 +16,14 @@ namespace AutomixMVC.Services
             _context = context;
             _basket = new Basket(); // This can also be fetched from the DB based on the user session
         }
+        private BasketItem FindItemByFoodId(int Id)
+        {
+            return _basket.Items.FirstOrDefault(item => item.Food != null && item.Food.FoodId == Id);
+        }
 
         public void AddToBasket(Food foodItem, int quantity = 1)
         {
-            var basketItem = _basket.Items.FirstOrDefault(item => item.Food.Id == foodItem.Id);
+            var basketItem = FindItemByFoodId(foodItem.FoodId);
             if (basketItem != null)
             {
                 basketItem.Quantity += quantity;
@@ -30,39 +34,33 @@ namespace AutomixMVC.Services
             }
         }
 
+ 
         public void RemoveFromBasket(Food foodItem)
         {
-            var basketItem = _basket.Items.FirstOrDefault(item => item.Food.Id == foodItem.Id);
+            var basketItem = FindItemByFoodId(foodItem.FoodId);
             if (basketItem != null)
             {
                 _basket.Items.Remove(basketItem);
             }
         }
-
         public void UpdateBasketItemQuantity(Food foodItem, int quantity)
         {
-            var basketItem = _basket.Items.FirstOrDefault(item => item.Food.Id == foodItem.Id);
+            var basketItem = FindItemByFoodId(foodItem.FoodId);
             if (basketItem != null)
             {
                 basketItem.Quantity = quantity;
-            }
-        }
-        public void DecreaseItemQuantity(Food foodItem, int quantity = 1)
-        {
-            var basketItem = _basket.Items.FirstOrDefault(item => item.Food.Id == foodItem.Id);
-            if (basketItem != null)
-            {
-                basketItem.Quantity -= quantity;
+
                 if (basketItem.Quantity <= 0)
                 {
-                    _basket.Items.Remove(basketItem); // Remove the item if the quantity drops to zero or below
+                    _basket.Items.Remove(basketItem);
                 }
             }
         }
 
         public decimal GetBasketTotalPrice()
         {
-            return _basket.Items.Sum(item => item.Food.FoodPrice * item.Quantity);
+            return _basket.Items.Sum(item => item.Food?.FoodPrice ?? 0 * item.Quantity);
+
         }
 
         public async Task<Purchase> FinalizePurchaseAsync()

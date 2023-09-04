@@ -43,7 +43,7 @@ namespace AutomixMVC.Services
             if (_context.Users.Any(u => u.Username == username))
                 throw new ArgumentException($"Username \"{username}\" is already taken");
 
-            var user = new User { Username = username, Role = role };
+            var user = new User(username, _passwordHasher.HashPassword(password), role);
             user.PasswordHash = _passwordHasher.HashPassword(password);
 
             _context.Users.Add(user);
@@ -56,9 +56,14 @@ namespace AutomixMVC.Services
         {
             return await _context.Users.ToListAsync();
         }
-        public async Task<User> GetUser(int id) 
+        public async Task<User> GetUser(int id)
         {
-            return await _context.Users.FindAsync(id);
+            var user = await _context.Users.FindAsync(id);
+            if (user == null)
+            {
+                throw new Exception("User not found.");
+            }
+            return user;
         }
     }
 }

@@ -35,6 +35,7 @@ builder.Services.AddScoped<IImageService, ImageService>();
 builder.Services.AddScoped<IFoodItemRepository, FoodItemRepository>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
+builder.Services.AddScoped<IMenuPriceService, MenuPriceService>();
 
 
 

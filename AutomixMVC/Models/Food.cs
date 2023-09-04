@@ -2,7 +2,7 @@
 {
     public class Food
     {
-        public int Id { get; set; }
+        public int FoodId { get; set; }
         public string? Name { get; set; }
         public string? Description { get; set; }
         public FoodType FoodTypeId { get; set; }
@@ -12,5 +12,12 @@
         public DateTime DateTime { get; set; }
         public DailyMenuType? DailyMenuType { get; set; }
     
+        public Food(string name, FoodType foodTypeId, decimal foodPrice)
+        {
+
+            Name = name;
+            FoodTypeId = foodTypeId;
+            FoodPrice = foodPrice;
+        }
     }
 }

@@ -9,7 +9,12 @@ namespace AutomixMVC.Controllers
 {
     public class UsersController : Controller
     {
-        private readonly IUserService? _userService;
+        private readonly IUserService _userService;
+
+        public UsersController(IUserService userService)
+        {
+            _userService = userService ?? throw new ArgumentNullException(nameof(userService));
+        }
 
         [HttpGet]
         public IActionResult Login()
@@ -18,18 +23,20 @@ namespace AutomixMVC.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Login(LoginViewModel model, string returnUrl = null)
+        public async Task<IActionResult> Login(LoginViewModel model, string? returnUrl = null)
         {
+            if (model == null) throw new ArgumentNullException(nameof(model));
+
             if (ModelState.IsValid)
             {
-                var result = await _userService.Authenticate(model.Username, model.Password);
+                var result = await _userService.Authenticate(model.Username ?? "", model.Password ?? "");
                 if (result != null)
                 {
                     var claims = new List<Claim>
-            {
-                new Claim(ClaimTypes.Name, result.Username),
-                new Claim(ClaimTypes.Role, result.Role)
-            };
+                    {
+                        new Claim(ClaimTypes.Name, result.Username),
+                        new Claim(ClaimTypes.Role, result.Role ?? "DefaultRole")
+                    };
 
                     var claimsIdentity = new ClaimsIdentity(
                         claims, CookieAuthenticationDefaults.AuthenticationScheme);

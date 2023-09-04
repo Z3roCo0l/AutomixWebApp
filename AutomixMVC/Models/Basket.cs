@@ -8,7 +8,7 @@ namespace AutomixMVC.Models
         public int Id { get; set; }
         public List<BasketItem> Items { get; set; } = new List<BasketItem>();
         public int? UserId { get; set; }
-        public virtual User User { get; set; }
+        public virtual User? User { get; set; }
        
     }
 }

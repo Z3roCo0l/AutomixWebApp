@@ -25,6 +25,7 @@ namespace AutomixMVC.Data
         public DbSet<FoodIngredients> FoodIngredients { get; set; }
         public DbSet<FoodIngredientAssociation> FoodIngredientAssociations { get; set; }
         public DbSet<Purchase> Purchases { get; set; }
+        public DbSet<Setting> Settings { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -69,13 +70,11 @@ namespace AutomixMVC.Data
             });
 
             // Seed the initial admin user
-            modelBuilder.Entity<User>().HasData(new User
+            modelBuilder.Entity<User>().HasData(new User("admin", HashPassword("adminpassword"), "Admin")
             {
-                Id = 1,
-                Username = "admin",
-                PasswordHash = HashPassword("adminpassword"),
-                Role = "Admin"
+                Id = 1
             });
+
             modelBuilder.Entity<FoodIngredientAssociation>()
            .HasKey(fia => new { fia.FoodId, fia.FoodIngredientsID });
 
@@ -88,6 +87,10 @@ namespace AutomixMVC.Data
                 .HasOne(fia => fia.FoodIngredients)
                 .WithMany(fi => fi.FoodIngredientAssociations)
                 .HasForeignKey(fia => fia.FoodIngredientsID);
+
+            modelBuilder.Entity<Setting>().HasData(
+                new Setting { Id = 1, Name = "DefaultMenuPrice", Value = "1490.0" }  
+            );
         }
 
         private string HashPassword(string password)
