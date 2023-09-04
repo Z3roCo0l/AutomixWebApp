@@ -6,7 +6,12 @@ namespace AutomixMVC.Controllers
 {
     public class AdminController : Controller
     {
-        [Authorize(Roles = "Admin")]
+        public IActionResult Login()
+        {
+            return View();
+        }
+
+        [Authorize(Roles = "Admin, Kitchen, Waiter")]
         public IActionResult Index()
         {
             return View();
